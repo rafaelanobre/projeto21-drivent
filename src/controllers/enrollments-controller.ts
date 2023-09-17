@@ -2,6 +2,7 @@ import { Response } from 'express';
 import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import { enrollmentsService } from '@/services';
+import { invalidDataError } from '@/errors';
 
 export async function getEnrollmentByUser(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
@@ -20,8 +21,9 @@ export async function postCreateOrUpdateEnrollment(req: AuthenticatedRequest, re
   return res.sendStatus(httpStatus.OK);
 }
 
-// TODO - Receber o CEP do usuário por query params.
 export async function getAddressFromCEP(req: AuthenticatedRequest, res: Response) {
-  const address = await enrollmentsService.getAddressFromCEP();
+  const cep = String(req.query.cep);
+  if(!cep || !/^\d{8}$/.test(cep)) throw invalidDataError("CEP");
+  const address = await enrollmentsService.getAddressFromCEP(cep);
   res.status(httpStatus.OK).send(address);
 }
