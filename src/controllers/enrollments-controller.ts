@@ -23,7 +23,7 @@ export async function postCreateOrUpdateEnrollment(req: AuthenticatedRequest, re
 
 export async function getAddressFromCEP(req: AuthenticatedRequest, res: Response) {
   const cep = String(req.query.cep);
-  if(!cep || !/^\d{8}$/.test(cep)) throw invalidDataError("CEP");
+  if (!cep || !/^\d{8}$/.test(cep)) throw invalidDataError('CEP');
   const address = await enrollmentsService.getAddressFromCEP(cep);
   res.status(httpStatus.OK).send(address);
 }
