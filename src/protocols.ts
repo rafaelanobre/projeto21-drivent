@@ -37,3 +37,7 @@ export type CreatePayment = {
     cvv: string;
   };
 };
+
+export type CreateTicket = {
+  ticketTypeId: number;
+}
