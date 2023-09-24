@@ -20,7 +20,9 @@ async function ticketPost(ticketTypeId: number, userId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
   if (!enrollment) throw notFoundError();
 
-  return await ticketRepository.ticketPost(ticketTypeId, enrollment.id);
+  await ticketRepository.ticketPost(ticketTypeId, enrollment.id);
+
+  return await ticketRepository.getUserTicket(userId);
 }
 
 export const ticketService = {
